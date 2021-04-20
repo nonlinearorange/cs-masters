@@ -255,3 +255,55 @@ CREATE TABLE IF NOT EXISTS patient_condition
         FOREIGN KEY (patient_id)
             REFERENCES patient (id)
 );
+
+DROP VIEW IF EXISTS user_consolidated;
+CREATE VIEW IF NOT EXISTS user_consolidated
+AS
+SELECT u.id         AS user_id
+     , u.first_name AS first_name
+     , u.last_name  AS last_name
+     , u.email      AS email
+     , u.password   AS password
+     , sr.id        AS role_id
+     , sr.name      AS role_name
+     , er.id        AS employee_role_id
+     , er.name      AS employee_role_name
+     , u.created_at AS created_at
+     , u.is_active  AS is_active
+FROM USER AS u
+         INNER JOIN system_role AS sr
+                    ON u.system_role_id = sr.id
+         INNER JOIN employee_role AS er
+                    ON u.employee_role_id = er.id;
+
+DROP VIEW IF EXISTS patient_consolidated;
+CREATE VIEW IF NOT EXISTS patient_consolidated
+AS
+SELECT p.id            AS 'identifier'
+     , p.name          AS 'name'
+     , p.weight        AS 'weight'
+     , p.date_of_birth AS 'birthday'
+     , p.created_at    AS 'created_at'
+     , p.is_active     AS 'is_active'
+     , s.id            AS 'species_id'
+     , s.name          AS 'species_name'
+     , c.id            AS 'customer_id'
+     , c.first_name    AS 'customer_first_name'
+     , c.last_name     AS 'customer_last_name'
+     , c.email         AS 'customer_email'
+FROM patient AS p
+         INNER JOIN species AS s
+                    ON p.species_id = s.id
+         INNER JOIN customer AS c
+                    ON p.owner_id = c.id;
+
+DROP VIEW IF EXISTS customer_consolidated;
+CREATE VIEW IF NOT EXISTS customer_consolidated
+AS
+SELECT c.id         AS 'id'
+     , c.first_name AS 'first_name'
+     , c.last_name  AS 'last_name'
+     , c.email      AS 'email'
+     , c.created_at AS 'created_at'
+     , c.is_active  AS 'is_active'
+FROM customer AS c;
