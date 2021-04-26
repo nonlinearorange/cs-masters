@@ -1,4 +1,4 @@
-function resulting_image  = median_filter(reference_image, k_size_x, k_size_y)
+function resulting_image  = mean_filter(reference_image, k_size_x, k_size_y)
     [height, width, channels] = size(reference_image);
 
     if channels > 1
