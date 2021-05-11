@@ -55,6 +55,21 @@ def get_customers():
     return jsonify(customers)
 
 
+@app.route('/api/customer/<identifier>', methods=['GET'])
+def get_customer(identifier):
+    customer = Customer.get_by_identifier(identifier)
+    if customer is None:
+        return resource_not_found_response(identifier)
+
+    return jsonify(customer)
+
+
+@app.route('/api/customer/<identifier>', methods=['DELETE'])
+def deactivate_customer(identifier):
+    Customer.deactivate(identifier)
+    return resource_deleted_response(identifier)
+
+
 def resource_not_found_response(identifier):
     return jsonify({
         'resource_identifier': identifier,

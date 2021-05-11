@@ -66,8 +66,8 @@ class Patient:
         cursor.execute(sql)
 
         patients = []
-        if cursor.rowcount <= 0:
-            list(map(lambda row: map_full_patient(row), cursor))
+        if cursor.rowcount > 0:
+            patients = list(map(lambda row: map_full_patient(row), cursor))
 
         cursor.close()
         connection.close()

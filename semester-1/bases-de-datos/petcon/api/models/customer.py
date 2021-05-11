@@ -10,7 +10,30 @@ class Customer:
 
     @staticmethod
     def get_by_identifier(identifier):
-        pass
+        sql = """
+        SELECT identifier
+             , first_name
+             , last_name
+             , email
+             , created_at
+        FROM customer_consolidated
+        WHERE is_active = 1
+        and identifier = %s;
+        """
+
+        connection = DB.get_open_connection()
+        cursor = connection.cursor(dictionary=True, buffered=True)
+        cursor.execute(sql, (identifier,))
+        row = cursor.fetchone()
+
+        customer = None
+        if row is not None:
+            customer = map_full_customer(row)
+
+        cursor.close()
+        connection.close()
+
+        return customer
 
     @staticmethod
     def get_all():
@@ -29,13 +52,30 @@ class Customer:
         cursor.execute(sql)
 
         customers = []
-        if cursor.rowcount <= 0:
-            list(map(lambda row: map_full_customer(row), cursor))
+        if cursor.rowcount > 0:
+            customers = list(map(lambda row: map_full_customer(row), cursor))
 
         cursor.close()
         connection.close()
 
         return customers
+
+    @staticmethod
+    def deactivate(identifier):
+        sql = """
+        UPDATE customer
+        SET is_active = 0
+        WHERE id = %s;
+        """
+
+        connection = DB.get_open_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (identifier,))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
 
 
 def map_full_customer(row):

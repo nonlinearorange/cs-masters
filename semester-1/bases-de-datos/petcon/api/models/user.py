@@ -67,7 +67,7 @@ class User:
         cursor.execute(sql)
 
         users = []
-        if cursor.rowcount <= 0:
+        if cursor.rowcount > 0:
             users = list(map(lambda row: map_full_user(row), cursor))
 
         cursor.close()
