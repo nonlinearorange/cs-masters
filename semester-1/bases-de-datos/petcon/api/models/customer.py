@@ -28,7 +28,9 @@ class Customer:
         cursor = connection.cursor(dictionary=True, buffered=True)
         cursor.execute(sql)
 
-        customers = list(map(lambda row: map_full_customer(row), cursor))
+        customers = []
+        if cursor.rowcount <= 0:
+            list(map(lambda row: map_full_customer(row), cursor))
 
         cursor.close()
         connection.close()

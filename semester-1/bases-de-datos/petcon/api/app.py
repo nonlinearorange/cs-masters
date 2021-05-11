@@ -16,6 +16,9 @@ def get_users():
 @app.route('/api/user/<identifier>', methods=['GET'])
 def get_user(identifier):
     user = User.get_by_identifier(identifier)
+    if user is None:
+        return resource_not_found_response(identifier)
+
     return jsonify(user)
 
 
@@ -34,6 +37,9 @@ def get_patients():
 @app.route('/api/patient/<identifier>', methods=['GET'])
 def get_patient(identifier):
     patient = Patient.get_by_identifier(identifier)
+    if patient is None:
+        return resource_not_found_response(identifier)
+
     return jsonify(patient)
 
 
@@ -49,11 +55,18 @@ def get_customers():
     return jsonify(customers)
 
 
+def resource_not_found_response(identifier):
+    return jsonify({
+        'resource_identifier': identifier,
+        'status': 'not found'
+    }), 404
+
+
 def resource_deleted_response(identifier):
     return jsonify({
-        'item': identifier,
+        'resource_identifier': identifier,
         'status': 'success'
-    })
+    }), 200
 
 
 if __name__ == '__main__':

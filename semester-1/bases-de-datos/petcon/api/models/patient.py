@@ -34,7 +34,9 @@ class Patient:
         cursor.execute(sql, (identifier,))
         row = cursor.fetchone()
 
-        patient = map_full_patient(row)
+        patient = None
+        if row is not None:
+            patient = map_full_patient(row)
 
         cursor.close()
         connection.close()
@@ -63,7 +65,9 @@ class Patient:
         cursor = connection.cursor(dictionary=True, buffered=True)
         cursor.execute(sql)
 
-        patients = list(map(lambda row: map_full_patient(row), cursor))
+        patients = []
+        if cursor.rowcount <= 0:
+            list(map(lambda row: map_full_patient(row), cursor))
 
         cursor.close()
         connection.close()

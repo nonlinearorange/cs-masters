@@ -33,7 +33,9 @@ class User:
         cursor.execute(sql, (identifier,))
         row = cursor.fetchone()
 
-        user = map_full_user(row)
+        user = None
+        if row is not None:
+            user = map_full_user(row)
 
         cursor.close()
         connection.close()
@@ -64,7 +66,9 @@ class User:
         cursor = connection.cursor(dictionary=True, buffered=True)
         cursor.execute(sql)
 
-        users = list(map(lambda row: map_full_user(row), cursor))
+        users = []
+        if cursor.rowcount <= 0:
+            users = list(map(lambda row: map_full_user(row), cursor))
 
         cursor.close()
         connection.close()
