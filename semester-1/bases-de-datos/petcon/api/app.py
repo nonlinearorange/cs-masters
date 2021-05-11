@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 
+from models.customer import Customer
 from models.patient import Patient
 from models.user import User
 
@@ -22,6 +23,12 @@ def get_user(identifier):
 def get_patients():
     patients = Patient.get_all()
     return jsonify(patients)
+
+
+@app.route('/api/customer', methods=['GET'])
+def get_customers():
+    customers = Customer.get_all()
+    return jsonify(customers)
 
 
 if __name__ == '__main__':
