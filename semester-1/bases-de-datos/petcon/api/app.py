@@ -19,6 +19,12 @@ def get_user(identifier):
     return jsonify(user)
 
 
+@app.route('/api/user/<identifier>', methods=['DELETE'])
+def deactivate_user(identifier):
+    User.deactivate(identifier)
+    return resource_deleted_response(identifier)
+
+
 @app.route('/api/patient', methods=['GET'])
 def get_patients():
     patients = Patient.get_all()
@@ -31,10 +37,23 @@ def get_patient(identifier):
     return jsonify(patient)
 
 
+@app.route('/api/patient/<identifier>', methods=['DELETE'])
+def deactivate_patient(identifier):
+    Patient.deactivate(identifier)
+    return resource_deleted_response(identifier)
+
+
 @app.route('/api/customer', methods=['GET'])
 def get_customers():
     customers = Customer.get_all()
     return jsonify(customers)
+
+
+def resource_deleted_response(identifier):
+    return jsonify({
+        'item': identifier,
+        'status': 'success'
+    })
 
 
 if __name__ == '__main__':

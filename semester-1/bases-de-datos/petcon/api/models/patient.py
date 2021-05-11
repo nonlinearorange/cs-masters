@@ -70,6 +70,23 @@ class Patient:
 
         return patients
 
+    @staticmethod
+    def deactivate(identifier):
+        sql = """
+        UPDATE patient
+        SET is_active = 0
+        WHERE id = %s;
+        """
+
+        connection = DB.get_open_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (identifier,))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
 
 def map_full_patient(row):
     return {
