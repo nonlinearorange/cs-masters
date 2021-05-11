@@ -25,6 +25,12 @@ def get_patients():
     return jsonify(patients)
 
 
+@app.route('/api/patient/<identifier>', methods=['GET'])
+def get_patient(identifier):
+    patient = Patient.get_by_identifier(identifier)
+    return jsonify(patient)
+
+
 @app.route('/api/customer', methods=['GET'])
 def get_customers():
     customers = Customer.get_all()

@@ -12,7 +12,34 @@ class Patient:
 
     @staticmethod
     def get_by_identifier(identifier):
-        pass
+        sql = """
+        SELECT identifier
+             , name
+             , weight
+             , birthday
+             , created_at
+             , species_id
+             , species_name
+             , customer_id
+             , customer_first_name
+             , customer_last_name
+             , customer_email
+        FROM patient_consolidated
+        WHERE is_active = 1
+          AND identifier = %s;
+        """
+
+        connection = DB.get_open_connection()
+        cursor = connection.cursor(dictionary=True, buffered=True)
+        cursor.execute(sql, (identifier,))
+        row = cursor.fetchone()
+
+        patient = map_full_patient(row)
+
+        cursor.close()
+        connection.close()
+
+        return patient
 
     @staticmethod
     def get_all():
