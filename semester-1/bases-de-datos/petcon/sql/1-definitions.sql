@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS patient_condition
 DROP VIEW IF EXISTS user_consolidated;
 CREATE VIEW IF NOT EXISTS user_consolidated
 AS
-SELECT u.id         AS user_id
+SELECT u.id         AS identifier
      , u.first_name AS first_name
      , u.last_name  AS last_name
      , u.email      AS email
@@ -300,7 +300,7 @@ FROM patient AS p
 DROP VIEW IF EXISTS customer_consolidated;
 CREATE VIEW IF NOT EXISTS customer_consolidated
 AS
-SELECT c.id         AS 'id'
+SELECT c.id         AS 'identifier'
      , c.first_name AS 'first_name'
      , c.last_name  AS 'last_name'
      , c.email      AS 'email'
