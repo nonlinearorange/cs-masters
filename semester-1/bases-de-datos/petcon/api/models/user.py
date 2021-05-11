@@ -2,7 +2,7 @@ from helpers.db import DB
 
 
 class User:
-    USER_ID = "user_id"
+    USER_ID = "identifier"
     FIRST_NAME = "first_name"
     LAST_NAME = "last_name"
     EMAIL = "email"
@@ -15,7 +15,7 @@ class User:
     @staticmethod
     def get_by_identifier(identifier):
         sql = """
-        SELECT user_id
+        SELECT identifier
              , first_name
              , last_name
              , email
@@ -26,7 +26,7 @@ class User:
              , created_at
         FROM user_consolidated
         WHERE is_active = 1
-        AND user_id = %s;
+        AND identifier = %s;
         """
         connection = DB.get_open_connection()
         cursor = connection.cursor(dictionary=True, buffered=True)
@@ -47,7 +47,7 @@ class User:
     @staticmethod
     def get_all():
         sql = """
-        SELECT user_id
+        SELECT identifier
              , first_name
              , last_name
              , email
