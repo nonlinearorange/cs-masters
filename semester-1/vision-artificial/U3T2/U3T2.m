@@ -19,5 +19,5 @@ imshow(mat2gray(reference_image));
 %imshow(mat2gray(resulting_image));
 
 %book_resulting_image = book_global_correlation(full_image, reference_image);
-book_resulting_image = book_normalized_cross_correlation(full_image, reference_image);
-%book_resulting_image = book_correlation_coefficient(full_image, reference_image);
+%book_resulting_image = book_normalized_cross_correlation(full_image, reference_image);
+book_resulting_image = book_correlation_coefficient(full_image, reference_image);
