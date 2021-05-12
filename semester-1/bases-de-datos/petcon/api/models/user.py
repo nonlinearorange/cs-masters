@@ -6,7 +6,6 @@ class User:
     FIRST_NAME = "first_name"
     LAST_NAME = "last_name"
     EMAIL = "email"
-    PASSWORD = "password"
     USER_ROLE_ID = "role_id"
     USER_ROLE_NAME = "role_name"
     EMPLOYEE_ROLE_ID = "employee_role_id"

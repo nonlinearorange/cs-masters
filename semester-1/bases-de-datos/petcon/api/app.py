@@ -7,13 +7,13 @@ from models.user import User
 app = Flask(__name__)
 
 
-@app.route('/api/user', methods=['GET'])
+@app.route('/api/user/', methods=['GET'])
 def get_users():
     users = User.get_all()
     return jsonify(users)
 
 
-@app.route('/api/user/<identifier>', methods=['GET'])
+@app.route('/api/user/<identifier>/', methods=['GET'])
 def get_user(identifier):
     user = User.get_by_identifier(identifier)
     if user is None:
@@ -22,19 +22,19 @@ def get_user(identifier):
     return jsonify(user)
 
 
-@app.route('/api/user/<identifier>', methods=['DELETE'])
+@app.route('/api/user/<identifier>/', methods=['DELETE'])
 def deactivate_user(identifier):
     User.deactivate(identifier)
     return resource_deleted_response(identifier)
 
 
-@app.route('/api/patient', methods=['GET'])
+@app.route('/api/patient/', methods=['GET'])
 def get_patients():
     patients = Patient.get_all()
     return jsonify(patients)
 
 
-@app.route('/api/patient/<identifier>', methods=['GET'])
+@app.route('/api/patient/<identifier>/', methods=['GET'])
 def get_patient(identifier):
     patient = Patient.get_by_identifier(identifier)
     if patient is None:
@@ -43,19 +43,19 @@ def get_patient(identifier):
     return jsonify(patient)
 
 
-@app.route('/api/patient/<identifier>', methods=['DELETE'])
+@app.route('/api/patient/<identifier>/', methods=['DELETE'])
 def deactivate_patient(identifier):
     Patient.deactivate(identifier)
     return resource_deleted_response(identifier)
 
 
-@app.route('/api/customer', methods=['GET'])
+@app.route('/api/customer/', methods=['GET'])
 def get_customers():
     customers = Customer.get_all()
     return jsonify(customers)
 
 
-@app.route('/api/customer/<identifier>', methods=['GET'])
+@app.route('/api/customer/<identifier>/', methods=['GET'])
 def get_customer(identifier):
     customer = Customer.get_by_identifier(identifier)
     if customer is None:
@@ -64,7 +64,7 @@ def get_customer(identifier):
     return jsonify(customer)
 
 
-@app.route('/api/customer/<identifier>', methods=['DELETE'])
+@app.route('/api/customer/<identifier>/', methods=['DELETE'])
 def deactivate_customer(identifier):
     Customer.deactivate(identifier)
     return resource_deleted_response(identifier)
