@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer {% endblock %}
+
+{% block content %}
+    <h1>Customers</h1>
+
+    <ul>
+        {% for customer in customers %}
+            <li>{{ customer.identifier }}: {{ customer.first_name }} {{ customer.last_name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
