@@ -256,6 +256,23 @@ CREATE TABLE IF NOT EXISTS patient_condition
             REFERENCES patient (id)
 );
 
+DROP TABLE IF EXISTS patient_changes;
+CREATE TABLE IF NOT EXISTS patient_changes
+(
+    identifier    INT AUTO_INCREMENT,
+    patient_id    NVARCHAR(36),
+    old_birth_day DATETIME NOT NULL,
+    new_birth_day DATETIME NOT NULL,
+    created_at    DATETIME NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT pk_patient_changes
+        PRIMARY KEY (identifier),
+
+    CONSTRAINT fk_patient_changes_patient
+        FOREIGN KEY (patient_id)
+            REFERENCES user (id)
+);
+
 DROP VIEW IF EXISTS user_consolidated;
 CREATE VIEW IF NOT EXISTS user_consolidated
 AS
