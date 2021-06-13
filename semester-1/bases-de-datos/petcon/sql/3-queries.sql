@@ -47,3 +47,26 @@ SELECT identifier
      , created_at
 FROM user_consolidated
 WHERE is_active = 1;
+
+SELECT identifier
+     , first_name
+     , last_name
+     , email
+     , created_at
+     , is_active
+FROM customer_consolidated;
+
+SELECT id
+     , created_by
+     , designated_to
+     , patient_id
+     , due_to
+     , created_at
+     , is_active
+FROM appointment AS a;
+
+SELECT *
+FROM customer;
+
+SELECT *
+FROM customer_consolidated;

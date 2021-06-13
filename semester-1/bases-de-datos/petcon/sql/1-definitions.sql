@@ -301,13 +301,13 @@ SELECT p.id            AS 'identifier'
      , p.weight        AS 'weight'
      , p.date_of_birth AS 'birthday'
      , p.created_at    AS 'created_at'
-     , p.is_active     AS 'is_active'
      , s.id            AS 'species_id'
      , s.name          AS 'species_name'
      , c.id            AS 'customer_id'
      , c.first_name    AS 'customer_first_name'
      , c.last_name     AS 'customer_last_name'
      , c.email         AS 'customer_email'
+     , p.is_active     AS is_active
 FROM patient AS p
          INNER JOIN species AS s
                     ON p.species_id = s.id
@@ -324,3 +324,29 @@ SELECT c.id         AS 'identifier'
      , c.created_at AS 'created_at'
      , c.is_active  AS 'is_active'
 FROM customer AS c;
+
+DROP VIEW IF EXISTS appointment_consolidated;
+CREATE VIEW IF NOT EXISTS appointment_consolidated
+AS
+SELECT a.id            AS appointment_id
+     , a.due_to        AS appointment_due_to
+     , a.created_at    AS appointment_created_at
+     , p.id            AS patient_id
+     , p.name          AS patient_name
+     , p.date_of_birth AS patient_date_of_birth
+     , p.weight        AS patient_weight
+     , c.id            AS customer_id
+     , c.first_name    AS customer_first_name
+     , c.last_name     AS customer_last_name
+     , u.id            AS user_id
+     , u.first_name    AS user_first_name
+     , u.last_name     AS user_last_name
+     , u.email         AS user_email
+     , a.is_active     AS is_active
+FROM appointment AS a
+         INNER JOIN patient AS p
+                    ON a.patient_id = p.id
+         INNER JOIN customer AS c
+                    ON p.owner_id = c.id
+         INNER JOIN user AS u
+                    ON a.created_by = u.id;
