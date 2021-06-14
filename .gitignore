@@ -365,3 +365,6 @@ MigrationBackup/
 
 # Python
 **/venv
+
+# .NET Connection Strings
+connections.config
