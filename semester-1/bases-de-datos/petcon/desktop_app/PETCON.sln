@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PETCON.DesktopApp", "src\PETCON.DesktopApp\PETCON.DesktopApp.csproj", "{A10DC5DF-9A62-45EA-B798-36B078CB6237}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A10DC5DF-9A62-45EA-B798-36B078CB6237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A10DC5DF-9A62-45EA-B798-36B078CB6237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A10DC5DF-9A62-45EA-B798-36B078CB6237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A10DC5DF-9A62-45EA-B798-36B078CB6237}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52F7E2F6-6C81-48FE-BC9A-DBC8FB198ABD}
+	EndGlobalSection
+EndGlobal
