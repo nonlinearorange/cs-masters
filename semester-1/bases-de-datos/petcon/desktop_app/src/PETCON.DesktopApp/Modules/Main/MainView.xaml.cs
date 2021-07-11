@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using PETCON.DesktopApp.Models.Appointment;
+using PETCON.DesktopApp.Modules.CreateAppointment;
 using PETCON.DesktopApp.Modules.DismissAppointment;
 using PETCON.DesktopApp.Modules.Login;
 
@@ -26,6 +27,15 @@ namespace PETCON.DesktopApp.Modules.Main
 
             Loaded += OnLoaded;
             LogoutButton.Click += LogoutButtonOnClick;
+            CreateAppointmentButton.Click += CreateAppointmentButtonOnClick;
+        }
+
+        private async void CreateAppointmentButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            CreateAppointmentView view = new CreateAppointmentView();
+            view.ShowDialog();
+
+            await ViewModel.LoadAppointments();
         }
 
         private void LogoutButtonOnClick(object sender, RoutedEventArgs e)

@@ -21,6 +21,7 @@
     <Grid Background="{StaticResource Generic-BackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
@@ -119,7 +120,28 @@
                 </StackPanel>
             </Grid>
         </Border>
-        <ListBox Grid.Row="1"
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="5,8,5,5">
+            <Button x:Name="CreateAppointmentButton"
+                    Style="{StaticResource Generic-Button}"
+                    Height="35"
+                    Width="130">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="20"
+                                 VerticalAlignment="Center">
+                            <ContentControl Content="{StaticResource Icons.Add}" />
+                        </Viewbox>
+                        <TextBlock Margin="10,0,0,0"
+                                   Foreground="{StaticResource Generic-Foreground}"
+                                   Text="Crear Cita"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <ListBox Grid.Row="2"
                  Background="Transparent"
                  BorderBrush="{x:Null}"
                  HorizontalContentAlignment="Stretch"

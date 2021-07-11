@@ -7,6 +7,7 @@ using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
 using PETCON.DesktopApp.Mappings.AppointmentMap;
 using PETCON.DesktopApp.Mappings.CustomerMap;
+using PETCON.DesktopApp.Mappings.PatientMap;
 using PETCON.DesktopApp.Mappings.UserMap;
 using Configuration = NHibernate.Cfg.Configuration;
 
@@ -21,6 +22,7 @@ namespace PETCON.DesktopApp.Services
             mapper.AddMapping<ConsolidatedAppointmentMap>();
             mapper.AddMapping<UserMap>();
             mapper.AddMapping<CustomerMap>();
+            mapper.AddMapping<PatientMap>();
 
             return mapper;
         }

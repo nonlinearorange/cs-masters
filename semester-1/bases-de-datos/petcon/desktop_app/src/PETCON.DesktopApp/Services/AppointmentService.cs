@@ -53,5 +53,27 @@ namespace PETCON.DesktopApp.Services
                 return true;
             }
         }
+
+        public static void Create(NewAppointment newAppointment)
+        {
+            using (ISession session = SessionBuilder.CreateOpenSession())
+            using (ITransaction tx = session.BeginTransaction())
+            {
+                Appointment appointment = new Appointment
+                {
+                    Identifier = newAppointment.Identifier,
+                    CreatedBy = newAppointment.CreatedBy,
+                    DesignatedTo = newAppointment.DesignatedTo,
+                    PatientId = newAppointment.PatientId,
+                    DueTo = newAppointment.DueTo,
+                    CreatedAt = DateTime.Now, // Change to DB default.
+                    IsActive = true // Change to DB default.
+                };
+
+                session.Save(appointment);
+
+                tx.Commit();
+            }
+        }
     }
 }

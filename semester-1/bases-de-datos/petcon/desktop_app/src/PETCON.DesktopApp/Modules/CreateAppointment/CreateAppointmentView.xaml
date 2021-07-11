@@ -1,0 +1,52 @@
+﻿<Window x:Class="PETCON.DesktopApp.Modules.CreateAppointment.CreateAppointmentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vms="clr-namespace:PETCON.DesktopApp.Modules.CreateAppointment"
+        mc:Ignorable="d"
+        Title="CreateAppointmentView"
+        Height="450"
+        Width="600"
+        ResizeMode="CanMinimize"
+        d:DataContext="{d:DesignInstance {x:Type vms:CreateAppointmentViewModel}}"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/UIStyles.xaml" />
+                <ResourceDictionary Source="../../Styles/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{StaticResource Generic-BackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                Background="{StaticResource Generic-BannerBackgroundColor}">
+            <Grid Margin="5,5,5,5" />
+        </Border>
+        <Grid Grid.Row="2"
+              Background="{StaticResource Generic-BannerBackgroundColor}">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="15,5,15,5">
+                <Button x:Name="RegisterAppointmentButton"
+                        Content="Registrar Cita"
+                        Style="{StaticResource Blue-Button}"
+                        Foreground="{StaticResource Generic-Foreground}"
+                        Padding="5,5,5,5"
+                        IsEnabled="{Binding CanRegister}" />
+                <Button x:Name="ReturnButton"
+                        Content="Regresar"
+                        Margin="5,0,0,0"
+                        Padding="5,5,5,5"
+                        Style="{StaticResource Generic-Button}"
+                        Foreground="{StaticResource Generic-Foreground}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

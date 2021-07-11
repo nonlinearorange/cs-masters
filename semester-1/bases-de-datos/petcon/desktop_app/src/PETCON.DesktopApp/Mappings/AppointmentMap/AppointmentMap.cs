@@ -22,7 +22,7 @@ namespace PETCON.DesktopApp.Mappings.AppointmentMap
             Property(x => x.DueTo, m => m.Column("due_to"));
             Property(x => x.PatientId, m => m.Column("patient_id"));
             Property(x => x.CreatedAt, m => m.Column("created_at"));
-            Property(x => x.IsActive, m => m.Column("is_active"));
+            Property(x => x.IsActive, m => { m.Column("is_active"); });
         }
     }
 }

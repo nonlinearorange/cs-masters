@@ -81,16 +81,25 @@
     <Compile Include="Enums\SystemRoleType.cs" />
     <Compile Include="Helpers\Globals.cs" />
     <Compile Include="Mappings\CustomerMap\CustomerMap.cs" />
+    <Compile Include="Mappings\PatientMap\PatientMap.cs" />
     <Compile Include="Mappings\UserMap\UserMap.cs" />
+    <Compile Include="Models\Appointment\NewAppointment.cs" />
     <Compile Include="Models\Customer\Customer.cs" />
+    <Compile Include="Models\Patient\Patient.cs" />
     <Compile Include="Models\User\User.cs" />
+    <Compile Include="Modules\CreateAppointment\CreateAppointmentView.xaml.cs">
+      <DependentUpon>CreateAppointmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\CreateAppointment\CreateAppointmentViewModel.cs" />
     <Compile Include="Modules\DismissAppointment\DismissAppointmentView.xaml.cs">
       <DependentUpon>DismissAppointmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\DismissAppointment\DismissAppointmentViewModel.cs" />
     <Compile Include="Services\AppointmentService.cs" />
     <Compile Include="Services\LoginService.cs" />
+    <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\SessionBuilder.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BindableBase.cs" />
@@ -143,6 +152,7 @@
     <Folder Include="Models\User\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Modules\CreateAppointment\CreateAppointmentView.xaml" />
     <Page Include="Modules\DismissAppointment\DismissAppointmentView.xaml" />
     <Page Include="Modules\Login\LoginView.xaml">
       <SubType>Designer</SubType>

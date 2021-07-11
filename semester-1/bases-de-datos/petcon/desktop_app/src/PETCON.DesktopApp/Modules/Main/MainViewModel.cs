@@ -98,7 +98,7 @@ namespace PETCON.DesktopApp.Modules.Main
             UserFullName = $"{CurrentUser.FirstName} {CurrentUser.LastName}";
         }
 
-        private async Task LoadAppointments()
+        public async Task LoadAppointments()
         {
             WorkingAppointments.Clear();
             ReferenceAppointments.Clear();
