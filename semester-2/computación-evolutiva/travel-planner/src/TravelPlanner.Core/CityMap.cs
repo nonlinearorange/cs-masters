@@ -12,7 +12,7 @@
             Connections = new Dictionary<string, (string, string)>();
         }
 
-        private (string, string) GeneratePairIdentifiers(string origin, string destination)
+        private static (string, string) GeneratePairIdentifiers(string origin, string destination)
         {
             return ($"{origin}-{destination}", $"{destination}-{origin}");
         }
@@ -39,8 +39,7 @@
         {
             (string main, string inverse) = GeneratePairIdentifiers(origin, destination);
 
-            double cost;
-            bool mainFound = Costs.TryGetValue(main, out cost);
+            bool mainFound = Costs.TryGetValue(main, out double cost);
             if (mainFound) return cost;
 
             bool inverseFound = Costs.TryGetValue(inverse, out cost);
@@ -107,7 +106,7 @@
 
         public IEnumerable<string> GetCities()
         {
-            Dictionary<string, string> cities = new Dictionary<string, string>();
+            Dictionary<string, string> cities = new();
             foreach (KeyValuePair<string, (string, string)> connection in Connections)
             {
                 (string origin, string destination) = connection.Value;
@@ -117,6 +116,25 @@
             }
 
             return cities.Keys.ToList();
+        }
+
+        public Path CreateRandomPathFromCities()
+        {
+            return CreateRandomPathFromCities(GetCities().Count());
+        }
+
+        public Path CreateRandomPathFromCities(int length)
+        {
+            int variantLength = Utilities.GetRandomInteger(0, length - 1);
+            string[] cities = GetCities().ToArray();
+            Path path = new Path();
+            for (int i = 0; i < length - variantLength; i++)
+            {
+                int randomIndex = Utilities.GetRandomInteger(0, length);
+                path.AddCity(cities[randomIndex]);
+            }
+
+            return path;
         }
     }
 }

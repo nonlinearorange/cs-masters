@@ -7,7 +7,16 @@
         public Path()
         {
             Content = new List<string>();
-        }       
+        }
+
+        public Path(IEnumerable<string> cities)
+        {
+            Content = new List<string>();
+            foreach (string city in cities)
+            {
+                Content.Add(city);
+            }
+        }
 
         public void AddCity(string name)
         {
@@ -24,9 +33,25 @@
             return Content.Count();
         }
 
-        public static Path CreateRandom()
+        public string GetOrigin()
         {
-            throw new NotImplementedException();
+            return Content[0];
+        }
+
+        public string GetDesination()
+        {
+            return Content[^1];
+        }
+
+        public override string ToString()
+        {
+            string output = string.Empty;
+            foreach (string city in Content)
+            {
+                output += $"[{city}]";
+            }
+
+            return output;
         }
     }
 }
