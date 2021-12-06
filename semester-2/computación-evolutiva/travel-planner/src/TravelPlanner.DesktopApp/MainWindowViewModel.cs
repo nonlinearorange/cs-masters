@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using TravelPlanner.Core;
 
 namespace TravelPlanner.DesktopApp
@@ -191,6 +192,14 @@ namespace TravelPlanner.DesktopApp
         public async Task Search()
         {
             if (Planner == null) return;
+
+            if (string.Equals(Origin, Destination))
+            {
+                const string message = "Cities can't be the same.";
+                const string title = "IARN Research : Same Cities";
+                MessageBox.Show(message, title, MessageBoxButton.OK);
+                return;
+            }
 
             Count = 0;
             CanSearch = false;

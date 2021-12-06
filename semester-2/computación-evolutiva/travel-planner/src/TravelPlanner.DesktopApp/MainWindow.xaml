@@ -6,7 +6,7 @@
         xmlns:vms="clr-namespace:TravelPlanner.DesktopApp"
         mc:Ignorable="d"
         Title="IARN Research : Evolutive Planner" 
-        Height="550" 
+        Height="780" 
         Width="380"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance {x:Type vms:MainWindowViewModel}}">
