@@ -3,10 +3,130 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TravelPlanner.DesktopApp"
+        xmlns:vms="clr-namespace:TravelPlanner.DesktopApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" 
+        Height="400" 
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance {x:Type vms:MainWindowViewModel}}">
+    <Window.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </Window.Resources>
+    <Grid Background="{StaticResource StandardBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0"
+              Background="{StaticResource HeaderBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="IARN Research"
+                           Foreground="{StaticResource IARNBlue}"
+                           FontFamily="{StaticResource BoldFontFamily}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="20,0,0,0" />
+                <TextBlock Text=":"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="5,0,0,0" />
+                <TextBlock Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="5,0,0,0">
+                    <Run Text="Evolutive"
+                         FontFamily="{StaticResource BoldFontFamily}" />
+                    <Run Text="Planner" />
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1"
+              Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Text="Origin"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource StandardForeground}"
+                       FontFamily="{StaticResource BoldFontFamily}" />
+            <ComboBox Style="{StaticResource StandardComboBox}"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      Margin="5"
+                      Height="25"
+                      ItemsSource="{Binding AvailableCities}"
+                      SelectedItem="{Binding Origin}"
+                      HorizontalContentAlignment="Center"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Text="Destination"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource StandardForeground}"
+                       FontFamily="{StaticResource BoldFontFamily}" />
+            <ComboBox Style="{StaticResource StandardComboBox}"
+                      Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="5"
+                      Height="25"
+                      ItemsSource="{Binding AvailableCities}"
+                      SelectedItem="{Binding Destination}"
+                      HorizontalContentAlignment="Center"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Text="Generations"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource StandardForeground}"
+                       FontFamily="{StaticResource StandardFontFamily}" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="0"
+                     Text="{Binding Generations, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource StandardTextBox}"
+                     Foreground="{StaticResource StandardForeground}"
+                     FontFamily="{StaticResource StandardFontFamily}"
+                     Height="25"
+                     Margin="5"
+                     CaretBrush="{StaticResource StandardForeground}" 
+                     TextAlignment="Center"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Text="Population Size"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource StandardForeground}"
+                       FontFamily="{StaticResource StandardFontFamily}" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Text="{Binding PopulationSize, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource StandardTextBox}"
+                     Foreground="{StaticResource StandardForeground}"
+                     FontFamily="{StaticResource StandardFontFamily}"
+                     Height="25"
+                     Margin="5"
+                     CaretBrush="{StaticResource StandardForeground}"
+                     TextAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>

@@ -26,7 +26,7 @@ namespace TravelPlanner.DesktopApp
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // ViewModel?.Load();
+            ViewModel?.Load();
         }
     }
 }
