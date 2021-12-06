@@ -175,14 +175,15 @@
                      BorderBrush="{x:Null}"
                      BorderThickness="0"
                      Foreground="{StaticResource StandardForeground}"
-                     ItemsSource="{Binding FoundTrips}"                     >
+                     ItemsSource="{Binding FoundTrips}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5,5,5,5">
                             <Border CornerRadius="{StaticResource CornerRadius}"
                                 Background="{StaticResource StandardControlBackground}"                                
                                 VerticalAlignment="Center">
-                                <Grid Margin="5">
+                                <Grid Margin="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
