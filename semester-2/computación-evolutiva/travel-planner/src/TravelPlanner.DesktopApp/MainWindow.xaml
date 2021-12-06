@@ -5,19 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vms="clr-namespace:TravelPlanner.DesktopApp"
         mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="400" 
-        Width="300"
+        Title="IARN Research : Evolutive Planner" 
+        Height="550" 
+        Width="380"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance {x:Type vms:MainWindowViewModel}}">
     <Window.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <vms:BoolToVisibilityConverter x:Key="VisibilityConverter"/>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{StaticResource StandardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
@@ -29,7 +35,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="IARN Research"
-                           Foreground="{StaticResource IARNBlue}"
+                           Foreground="{StaticResource IARNOrange}"
                            FontFamily="{StaticResource BoldFontFamily}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
@@ -54,6 +60,9 @@
         <Grid Grid.Row="1"
               Margin="10">
             <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -127,6 +136,142 @@
                      Margin="5"
                      CaretBrush="{StaticResource StandardForeground}"
                      TextAlignment="Center"/>
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Text="Result Quantity"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource StandardForeground}"
+                       FontFamily="{StaticResource StandardFontFamily}" />
+            <TextBox Grid.Row="5"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Text="{Binding ResultQuantity, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource StandardTextBox}"
+                     Foreground="{StaticResource StandardForeground}"
+                     FontFamily="{StaticResource StandardFontFamily}"
+                     Height="25"
+                     Margin="5"
+                     CaretBrush="{StaticResource StandardForeground}"
+                     TextAlignment="Center"/>
+            <Button x:Name="SearchButton"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Style="{StaticResource ActiveButton}"
+                    Height="35"
+                    Margin="5,10,5,0"
+                    Content="Search"
+                    IsEnabled="{Binding CanSearch}"/>
+        </Grid>
+        <Grid Grid.Row="2"
+              Margin="10,0,10,10">
+            <ListBox Background="Transparent"
+                     HorizontalContentAlignment="Stretch"
+                     VerticalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.CanContentScroll="False"
+                     BorderBrush="{x:Null}"
+                     BorderThickness="0"
+                     Foreground="{StaticResource StandardForeground}"
+                     ItemsSource="{Binding FoundTrips}"                     >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5,5,5,5">
+                            <Border CornerRadius="{StaticResource CornerRadius}"
+                                Background="{StaticResource StandardControlBackground}"                                
+                                VerticalAlignment="Center">
+                                <Grid Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="Found Trip"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="{StaticResource StandardForeground}"
+                                           FontFamily="{StaticResource StandardFontFamily}"
+                                           Margin="0,0,0,0"/>
+                                    <TextBlock Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding FriendlyCost}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="{StaticResource StandardForeground}"
+                                           FontFamily="{StaticResource BoldFontFamily}"
+                                           Margin="0,0,0,0"
+                                           FontSize="16"/>
+                                    <TextBlock Grid.Row="2"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding FriendlyPath}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="{StaticResource StandardForeground}"
+                                           FontFamily="{StaticResource StandardFontFamily}"
+                                           Margin="0,1,0,0"
+                                           TextWrapping="Wrap"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+            </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="3"
+              Background="{StaticResource HeaderBackground}">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="Status: "
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}" />
+                <TextBlock Text="{Binding Status}"
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}"
+                           TextWrapping="WrapWithOverflow"
+                           Margin="5,0,0,0" />
+                <TextBlock Text="|"
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}" 
+                           Visibility="{Binding CanSearch, Converter={StaticResource VisibilityConverter}}"
+                           Margin="5,0,0,0"/>
+                <TextBlock Text="Count: "
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}"
+                           Margin="5,0,0,0"
+                           Visibility="{Binding CanSearch, Converter={StaticResource VisibilityConverter}}"/>
+                <TextBlock Text="{Binding Count}"
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource StandardForeground}"
+                           FontFamily="{StaticResource StandardFontFamily}"
+                           TextWrapping="WrapWithOverflow"
+                           Margin="5,0,0,0" 
+                           Visibility="{Binding CanSearch, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

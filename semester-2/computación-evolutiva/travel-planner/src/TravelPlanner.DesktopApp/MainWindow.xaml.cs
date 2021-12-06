@@ -22,6 +22,13 @@ namespace TravelPlanner.DesktopApp
             if (DesignerProperties.GetIsInDesignMode(this)) return;
 
             Loaded += OnLoaded;
+            SearchButton.Click += SearchButtonClick;
+        }
+
+        private async void SearchButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel == null) return;
+            await ViewModel.Search();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
