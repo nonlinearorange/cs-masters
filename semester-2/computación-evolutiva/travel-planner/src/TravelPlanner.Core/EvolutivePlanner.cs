@@ -171,7 +171,7 @@
             };
         }
 
-        private Path RandomLose(Path path)
+        private static Path RandomLose(Path path)
         {
             int index = Utilities.GetRandomInteger(0, path.GetCityCount());
             List<string> cities = path.GetCities().ToList();
@@ -179,7 +179,7 @@
             return new Path(cities);
         }
 
-        private Path Shrink(Path path)
+        private static Path Shrink(Path path)
         {
             string[] cities = path.GetCities().ToArray();
             string[] reduced = new string[cities.Length - 1];
@@ -201,7 +201,7 @@
             int index = Utilities.GetRandomInteger(0, cities.Length);
             return cities[index];
         }
-        private (Path a, Path b) CrossPair(Path a, Path b)
+        private static (Path a, Path b) CrossPair(Path a, Path b)
         {
             int minimumLength = Math.Min(a.GetCityCount(), b.GetCityCount());           
 
