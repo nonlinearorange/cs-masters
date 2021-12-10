@@ -1,97 +1,12 @@
-import numpy as np
-import skfuzzy as fuzz
+from builders.temperature_heater_fuzzy_rule_builder import TemperatureHeaterFuzzyRuleBuilder
+from memberships.heater_fuzzy_memberships import HeaterFuzzyMemberships
+from memberships.rpm_fuzzy_memberships import RpmFuzzyMemberships
+from memberships.temperature_fuzzy_memberships import TemperatureFuzzyMemberships
+from memberships.velocity_fuzzy_memberships import VelocityFuzzyMemberships
 
 from skfuzzy import control as ctrl
 
-
-class ConceptType:
-    UNDEFINED = 0
-    ANTECEDENT = 1
-    CONSEQUENT = 2
-
-
-class RpmFuzzyMemberships:
-    TOO_SLOW = "too_slow"
-    SLOW = "slow"
-    AVERAGE = "average"
-    FAST = "fast"
-    TOO_FAST = "too_fast"
-    NAME = "RPM"
-
-    def __init__(self):
-        self.definition = None
-        self.concept_type = ConceptType.UNDEFINED
-
-    def initialize(self):
-        minimum = 0.0
-        maximum = 20000.0
-        self.concept_type = ConceptType.CONSEQUENT
-        self.definition = ctrl.Consequent(np.arange(minimum, maximum, 1), self.NAME)
-        self.set_fuzzy_membership_functions()
-
-    def set_fuzzy_membership_functions(self):
-        self.definition[self.TOO_SLOW] = fuzz.trimf(self.definition.universe, [0.0, 0.0, 8000.0])
-        self.definition[self.SLOW] = fuzz.trimf(self.definition.universe, [4000.0, 8000.0, 12000.0])
-        self.definition[self.AVERAGE] = fuzz.trimf(self.definition.universe, [8000.0, 12000.0, 16000.0])
-        self.definition[self.FAST] = fuzz.trimf(self.definition.universe, [12000.0, 16000.0, 20000.0])
-        self.definition[self.TOO_FAST] = fuzz.trimf(self.definition.universe, [16000.0, 20000.0, 20000.0])
-
-    def visualize_membership_functions(self):
-        self.definition.view()
-
-    def visualize_simulation(self, simulation):
-        self.definition.view(sim=simulation)
-
-
-class VelocityFuzzyMemberships:
-    TOO_SLOW = "too_slow"
-    SLOW = "slow"
-    AVERAGE = "average"
-    FAST = "fast"
-    TOO_FAST = "too_fast"
-    NAME = "Velocity"
-
-    def __init__(self):
-        self.definition = None
-        self.concept_type = ConceptType.UNDEFINED
-
-    def initialize(self):
-        minimum = 0.0
-        maximum = 30.0
-        self.definition = ctrl.Antecedent(np.arange(minimum, maximum, 1), self.NAME)
-        self.set_fuzzy_membership_functions()
-
-    def set_fuzzy_membership_functions(self):
-        self.definition[self.TOO_SLOW] = fuzz.trimf(self.definition.universe, [0.0, 0.0, 10.0])
-        self.definition[self.SLOW] = fuzz.trimf(self.definition.universe, [5.0, 10.0, 15.0])
-        self.definition[self.AVERAGE] = fuzz.trimf(self.definition.universe, [10.0, 15.0, 20.0])
-        self.definition[self.FAST] = fuzz.trimf(self.definition.universe, [15.0, 20.0, 25.0])
-        self.definition[self.TOO_FAST] = fuzz.trimf(self.definition.universe, [20.0, 30.0, 30.0])
-
-    def visualize_membership_functions(self):
-        self.definition.view()
-
-
-class VelocityRpmFuzzyRuleBuilder:
-    def __init__(self, velocity_memberships, rpm_memberships):
-        self.velocity_memberships = velocity_memberships
-        self.rpm_memberships = rpm_memberships
-
-    def assemble(self):
-        rules = [
-            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.TOO_SLOW],
-                      self.rpm_memberships.definition[self.rpm_memberships.TOO_FAST]),
-            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.SLOW],
-                      self.rpm_memberships.definition[self.rpm_memberships.FAST]),
-            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.AVERAGE],
-                      self.rpm_memberships.definition[self.rpm_memberships.AVERAGE]),
-            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.FAST],
-                      self.rpm_memberships.definition[self.rpm_memberships.SLOW]),
-            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.TOO_SLOW],
-                      self.rpm_memberships.definition[self.rpm_memberships.TOO_FAST])
-        ]
-
-        return rules
+from builders.velocity_rpm_fuzzy_rule_builder import VelocityRpmFuzzyRuleBuilder
 
 
 def print_separator():
@@ -112,7 +27,7 @@ def build_rpm_memberships():
     return memberships
 
 
-def build_rpm_simulation_system(rules):
+def build_simulation_system(rules):
     control_system = ctrl.ControlSystem(rules)
     simulation_system = ctrl.ControlSystemSimulation(control_system)
     return simulation_system
@@ -131,14 +46,53 @@ def run_rpm_simulation(system):
     rpm = system.output[RpmFuzzyMemberships.NAME]
     print(f'Output RPM Speed: {rpm} RPMs')
 
+    system.view(sim=rpm)
+
 
 def execute_velocity_rpm_fuzzy_controller():
     velocity_memberships = build_velocity_memberships()
     rpm_memberships = build_rpm_memberships()
 
     rule_builder = VelocityRpmFuzzyRuleBuilder(velocity_memberships, rpm_memberships)
-    system = build_rpm_simulation_system(rule_builder.assemble())
+    system = build_simulation_system(rule_builder.assemble())
     run_rpm_simulation(system)
+
+
+def build_temperature_memberships():
+    memberships = TemperatureFuzzyMemberships()
+    memberships.initialize()
+    memberships.visualize_membership_functions()
+    return memberships
+
+
+def build_heater_memberships():
+    memberships = HeaterFuzzyMemberships()
+    memberships.initialize()
+    memberships.visualize_membership_functions()
+    return memberships
+
+
+def execute_temperature_heater_fuzzy_controller():
+    temperature_memberships = build_temperature_memberships()
+    heater_memberships = build_heater_memberships()
+
+    rule_builder = TemperatureHeaterFuzzyRuleBuilder(temperature_memberships, heater_memberships)
+    system = build_simulation_system(rule_builder.assemble())
+    run_rpm_simulation(system)
+
+
+def run_heater_simulation(system):
+    print_separator()
+    print("Sensor Input Readings:")
+
+    temperature = 45.0  # m/s.
+    print(f"Input Temperature: {temperature} °F")
+
+    system.input[TemperatureFuzzyMemberships.NAME] = temperature
+    system.compute()
+
+    heater = system.output[HeaterFuzzyMemberships.NAME]
+    print(f'Output Heater Work Required: {heater} kJ')
 
 
 def main():
