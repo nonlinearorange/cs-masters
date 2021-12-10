@@ -4,7 +4,13 @@ import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 
 
-class RpmFuzzyController:
+class ConceptType:
+    UNDEFINED = 0
+    ANTECEDENT = 1
+    CONSEQUENT = 2
+
+
+class RpmFuzzyMemberships:
     TOO_SLOW = "too_slow"
     SLOW = "slow"
     AVERAGE = "average"
@@ -13,29 +19,31 @@ class RpmFuzzyController:
     NAME = "RPM"
 
     def __init__(self):
-        self.consequent = None
+        self.definition = None
+        self.concept_type = ConceptType.UNDEFINED
 
     def initialize(self):
         minimum = 0.0
         maximum = 20000.0
-        self.consequent = ctrl.Consequent(np.arange(minimum, maximum, 1), self.NAME)
+        self.concept_type = ConceptType.CONSEQUENT
+        self.definition = ctrl.Consequent(np.arange(minimum, maximum, 1), self.NAME)
         self.set_fuzzy_membership_functions()
 
     def set_fuzzy_membership_functions(self):
-        self.consequent[self.TOO_SLOW] = fuzz.trimf(self.consequent.universe, [0.0, 0.0, 8000.0])
-        self.consequent[self.SLOW] = fuzz.trimf(self.consequent.universe, [4000.0, 8000.0, 12000.0])
-        self.consequent[self.AVERAGE] = fuzz.trimf(self.consequent.universe, [8000.0, 12000.0, 16000.0])
-        self.consequent[self.FAST] = fuzz.trimf(self.consequent.universe, [12000.0, 16000.0, 20000.0])
-        self.consequent[self.TOO_FAST] = fuzz.trimf(self.consequent.universe, [16000.0, 20000.0, 20000.0])
+        self.definition[self.TOO_SLOW] = fuzz.trimf(self.definition.universe, [0.0, 0.0, 8000.0])
+        self.definition[self.SLOW] = fuzz.trimf(self.definition.universe, [4000.0, 8000.0, 12000.0])
+        self.definition[self.AVERAGE] = fuzz.trimf(self.definition.universe, [8000.0, 12000.0, 16000.0])
+        self.definition[self.FAST] = fuzz.trimf(self.definition.universe, [12000.0, 16000.0, 20000.0])
+        self.definition[self.TOO_FAST] = fuzz.trimf(self.definition.universe, [16000.0, 20000.0, 20000.0])
 
     def visualize_membership_functions(self):
-        self.consequent.view()
+        self.definition.view()
 
     def visualize_simulation(self, simulation):
-        self.consequent.view(sim=simulation)
+        self.definition.view(sim=simulation)
 
 
-class VelocityFuzzyController:
+class VelocityFuzzyMemberships:
     TOO_SLOW = "too_slow"
     SLOW = "slow"
     AVERAGE = "average"
@@ -44,42 +52,43 @@ class VelocityFuzzyController:
     NAME = "Velocity"
 
     def __init__(self):
-        self.antecedent = None
+        self.definition = None
+        self.concept_type = ConceptType.UNDEFINED
 
     def initialize(self):
         minimum = 0.0
         maximum = 30.0
-        self.antecedent = ctrl.Antecedent(np.arange(minimum, maximum, 1), self.NAME)
+        self.definition = ctrl.Antecedent(np.arange(minimum, maximum, 1), self.NAME)
         self.set_fuzzy_membership_functions()
 
     def set_fuzzy_membership_functions(self):
-        self.antecedent[self.TOO_SLOW] = fuzz.trimf(self.antecedent.universe, [0.0, 0.0, 10.0])
-        self.antecedent[self.SLOW] = fuzz.trimf(self.antecedent.universe, [5.0, 10.0, 15.0])
-        self.antecedent[self.AVERAGE] = fuzz.trimf(self.antecedent.universe, [10.0, 15.0, 20.0])
-        self.antecedent[self.FAST] = fuzz.trimf(self.antecedent.universe, [15.0, 20.0, 25.0])
-        self.antecedent[self.TOO_FAST] = fuzz.trimf(self.antecedent.universe, [20.0, 30.0, 30.0])
+        self.definition[self.TOO_SLOW] = fuzz.trimf(self.definition.universe, [0.0, 0.0, 10.0])
+        self.definition[self.SLOW] = fuzz.trimf(self.definition.universe, [5.0, 10.0, 15.0])
+        self.definition[self.AVERAGE] = fuzz.trimf(self.definition.universe, [10.0, 15.0, 20.0])
+        self.definition[self.FAST] = fuzz.trimf(self.definition.universe, [15.0, 20.0, 25.0])
+        self.definition[self.TOO_FAST] = fuzz.trimf(self.definition.universe, [20.0, 30.0, 30.0])
 
     def visualize_membership_functions(self):
-        self.antecedent.view()
+        self.definition.view()
 
 
-class VelocityFuzzyRuleBuilder:
-    def __init__(self, velocity_controller, rpm_controller):
-        self.velocity_controller = velocity_controller
-        self.rpm_controller = rpm_controller
+class VelocityRpmFuzzyRuleBuilder:
+    def __init__(self, velocity_memberships, rpm_memberships):
+        self.velocity_memberships = velocity_memberships
+        self.rpm_memberships = rpm_memberships
 
     def assemble(self):
         rules = [
-            ctrl.Rule(self.velocity_controller.antecedent[self.velocity_controller.TOO_SLOW],
-                      self.rpm_controller.consequent[self.rpm_controller.TOO_FAST]),
-            ctrl.Rule(self.velocity_controller.antecedent[self.velocity_controller.SLOW],
-                      self.rpm_controller.consequent[self.rpm_controller.FAST]),
-            ctrl.Rule(self.velocity_controller.antecedent[self.velocity_controller.AVERAGE],
-                      self.rpm_controller.consequent[self.rpm_controller.AVERAGE]),
-            ctrl.Rule(self.velocity_controller.antecedent[self.velocity_controller.FAST],
-                      self.rpm_controller.consequent[self.rpm_controller.SLOW]),
-            ctrl.Rule(self.velocity_controller.antecedent[self.velocity_controller.TOO_SLOW],
-                      self.rpm_controller.consequent[self.rpm_controller.TOO_FAST])
+            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.TOO_SLOW],
+                      self.rpm_memberships.definition[self.rpm_memberships.TOO_FAST]),
+            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.SLOW],
+                      self.rpm_memberships.definition[self.rpm_memberships.FAST]),
+            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.AVERAGE],
+                      self.rpm_memberships.definition[self.rpm_memberships.AVERAGE]),
+            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.FAST],
+                      self.rpm_memberships.definition[self.rpm_memberships.SLOW]),
+            ctrl.Rule(self.velocity_memberships.definition[self.velocity_memberships.TOO_SLOW],
+                      self.rpm_memberships.definition[self.rpm_memberships.TOO_FAST])
         ]
 
         return rules
@@ -89,50 +98,51 @@ def print_separator():
     print("-" * 45)
 
 
-def build_velocity_controller():
-    controller = VelocityFuzzyController()
-    controller.initialize()
-    controller.visualize_membership_functions()
-    return controller
+def build_velocity_memberships():
+    memberships = VelocityFuzzyMemberships()
+    memberships.initialize()
+    memberships.visualize_membership_functions()
+    return memberships
 
 
-def build_rpm_controller():
-    controller = RpmFuzzyController()
-    controller.initialize()
-    controller.visualize_membership_functions()
-    return controller
+def build_rpm_memberships():
+    memberships = RpmFuzzyMemberships()
+    memberships.initialize()
+    memberships.visualize_membership_functions()
+    return memberships
 
 
-def build_simulation_system(rules):
+def build_rpm_simulation_system(rules):
     control_system = ctrl.ControlSystem(rules)
     simulation_system = ctrl.ControlSystemSimulation(control_system)
     return simulation_system
 
 
-def run_simulation(simulation_system):
+def run_rpm_simulation(system):
     print_separator()
     print("Sensor Input Readings:")
 
     fluid_velocity = 6.0  # m/s.
     print(f"Input Fluid Velocity: {fluid_velocity} m/s")
 
-    simulation_system.input[VelocityFuzzyController.NAME] = fluid_velocity
-    simulation_system.compute()
+    system.input[VelocityFuzzyMemberships.NAME] = fluid_velocity
+    system.compute()
 
-    rpm = simulation_system.output[RpmFuzzyController.NAME]
+    rpm = system.output[RpmFuzzyMemberships.NAME]
     print(f'Output RPM Speed: {rpm} RPMs')
 
 
+def execute_velocity_rpm_fuzzy_controller():
+    velocity_memberships = build_velocity_memberships()
+    rpm_memberships = build_rpm_memberships()
+
+    rule_builder = VelocityRpmFuzzyRuleBuilder(velocity_memberships, rpm_memberships)
+    system = build_rpm_simulation_system(rule_builder.assemble())
+    run_rpm_simulation(system)
+
+
 def main():
-    rpm_controller = build_rpm_controller()
-    velocity_controller = build_velocity_controller()
-
-    rule_builder = VelocityFuzzyRuleBuilder(velocity_controller, rpm_controller)
-    rules = rule_builder.assemble()
-    simulation_system = build_simulation_system(rules)
-
-    run_simulation(simulation_system)
-    rpm_controller.visualize_simulation(simulation_system)
+    execute_velocity_rpm_fuzzy_controller()
 
 
 if __name__ == '__main__':
