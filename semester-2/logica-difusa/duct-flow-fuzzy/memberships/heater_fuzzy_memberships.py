@@ -20,7 +20,7 @@ class HeaterFuzzyMemberships:
     def initialize(self):
         minimum = 0.0
         maximum = 2000
-        self.concept_type = ConceptType.ANTECEDENT
+        self.concept_type = ConceptType.CONSEQUENT
         self.definition = ctrl.Consequent(np.arange(minimum, maximum, 1), self.NAME)
         self.set_fuzzy_membership_functions()
 

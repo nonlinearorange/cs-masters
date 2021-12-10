@@ -46,8 +46,6 @@ def run_rpm_simulation(system):
     rpm = system.output[RpmFuzzyMemberships.NAME]
     print(f'Output RPM Speed: {rpm} RPMs')
 
-    system.view(sim=rpm)
-
 
 def execute_velocity_rpm_fuzzy_controller():
     velocity_memberships = build_velocity_memberships()
@@ -56,6 +54,8 @@ def execute_velocity_rpm_fuzzy_controller():
     rule_builder = VelocityRpmFuzzyRuleBuilder(velocity_memberships, rpm_memberships)
     system = build_simulation_system(rule_builder.assemble())
     run_rpm_simulation(system)
+
+    rpm_memberships.visualize_simulation(system)
 
 
 def build_temperature_memberships():
@@ -78,25 +78,28 @@ def execute_temperature_heater_fuzzy_controller():
 
     rule_builder = TemperatureHeaterFuzzyRuleBuilder(temperature_memberships, heater_memberships)
     system = build_simulation_system(rule_builder.assemble())
-    run_rpm_simulation(system)
+    run_heater_simulation(system)
+
+    heater_memberships.visualize_simulation(system)
 
 
 def run_heater_simulation(system):
     print_separator()
     print("Sensor Input Readings:")
 
-    temperature = 45.0  # m/s.
-    print(f"Input Temperature: {temperature} °F")
+    temperature = 120.0  # °C.
+    print(f"Input Temperature: {temperature} °C")
 
     system.input[TemperatureFuzzyMemberships.NAME] = temperature
     system.compute()
 
     heater = system.output[HeaterFuzzyMemberships.NAME]
-    print(f'Output Heater Work Required: {heater} kJ')
+    print(f'Output Heater Work Required: {heater * 1000.0} kJ')
 
 
 def main():
     execute_velocity_rpm_fuzzy_controller()
+    execute_temperature_heater_fuzzy_controller()
 
 
 if __name__ == '__main__':

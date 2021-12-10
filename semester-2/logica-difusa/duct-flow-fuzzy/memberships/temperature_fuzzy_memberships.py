@@ -21,7 +21,7 @@ class TemperatureFuzzyMemberships:
         minimum = 0.0
         maximum = 200.0
         self.concept_type = ConceptType.ANTECEDENT
-        self.definition = ctrl.Consequent(np.arange(minimum, maximum, 1), self.NAME)
+        self.definition = ctrl.Antecedent(np.arange(minimum, maximum, 1), self.NAME)
         self.set_fuzzy_membership_functions()
 
     def set_fuzzy_membership_functions(self):
