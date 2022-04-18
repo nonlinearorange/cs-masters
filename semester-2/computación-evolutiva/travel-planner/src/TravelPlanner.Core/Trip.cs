@@ -19,7 +19,7 @@
                     assembled += $"{cities[i]}, ";
                 }
 
-                assembled += $"{cities[cities.Count - 1]}";
+                assembled += $"{cities[^1]}";
                 return $"Cities: {assembled}";
             }
         }

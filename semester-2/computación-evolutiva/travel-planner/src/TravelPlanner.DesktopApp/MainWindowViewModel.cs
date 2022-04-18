@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -22,15 +21,15 @@ namespace TravelPlanner.DesktopApp
 
     internal class MainWindowViewModel : BindableBase
     {
-        private string? rate;
-        private string? generations;
-        private string? origin;
-        private string? destination;
-        private string? populationSize;
-        private string? status;
-        private string? resultQuantity;
-        private bool canSearch;
-        private int count;        
+        private string? _rate;
+        private string? _generations;
+        private string? _origin;
+        private string? _destination;
+        private string? _populationSize;
+        private string? _status;
+        private string? _resultQuantity;
+        private bool _canSearch;
+        private int _count;        
 
         public MainWindowViewModel()
         {
@@ -48,80 +47,80 @@ namespace TravelPlanner.DesktopApp
 
         public string Rate
         {
-            get => rate ?? "";
+            get => _rate ?? "";
             set
             {
-                rate = value;
+                _rate = value;
                 OnPropertyChanged(nameof(Rate));
             }
         }
 
         public string Generations
         {
-            get => generations ?? "";
+            get => _generations ?? "";
             set
             {
-                generations = value;
+                _generations = value;
                 OnPropertyChanged(nameof(Generations));
             }
         }
 
         public string Origin
         {
-            get => origin ?? "";
+            get => _origin ?? "";
             set
             {
-                origin = value;
+                _origin = value;
                 OnPropertyChanged(nameof(Origin));
             }
         }
 
         public string Destination
         {
-            get => destination ?? "";
+            get => _destination ?? "";
             set
             {
-                destination = value;
+                _destination = value;
                 OnPropertyChanged(nameof(Destination));
             }
         }
 
         public string PopulationSize 
         {
-            get => populationSize ?? "";
+            get => _populationSize ?? "";
             set
             {
-                populationSize = value;
+                _populationSize = value;
                 OnPropertyChanged(nameof(PopulationSize));
             }
         }
 
         public string Status
         {
-            get => status ?? "";
+            get => _status ?? "";
             set
             {
-                status = value;
+                _status = value;
                 OnPropertyChanged(nameof(Status));                
             }
         }
 
         public string ResultQuantity
         {
-            get => resultQuantity ?? "";
+            get => _resultQuantity ?? "";
             set
             {
-                resultQuantity = value;
+                _resultQuantity = value;
                 OnPropertyChanged(nameof(ResultQuantity));
             }
         }
 
         public bool CanSearch
         {
-            get => canSearch;
+            get => _canSearch;
             set
             {
-                canSearch = value;
+                _canSearch = value;
                 OnPropertyChanged(nameof(CanSearch));
                 EvaluateStatus();
             }
@@ -129,10 +128,10 @@ namespace TravelPlanner.DesktopApp
 
         public int Count 
         {
-            get => count;
+            get => _count;
             set
             {
-                count = value;
+                _count = value;
                 OnPropertyChanged(nameof(Count));
             }
         }
@@ -154,12 +153,12 @@ namespace TravelPlanner.DesktopApp
 
         private void EvaluateStatus()
         {
-            Status = (canSearch == true)? "Ready": "Busy";
+            Status = (_canSearch == true)? "Ready": "Busy";
         }
 
         private void LoadRelationships()
         {
-            CityMap map = new CityMap();
+            CityMap map = new();
             map.CreateConnection("Tijuana", "Guadalajara", 110.0);
             map.CreateConnection("Tijuana", "Monterrey", 100.0);
             map.CreateConnection("Guadalajara", "León", 25.0);
@@ -205,7 +204,7 @@ namespace TravelPlanner.DesktopApp
             CanSearch = false;
             FoundTrips.Clear();
             
-            List<Trip> sucessfullTrips = new List<Trip>();
+            List<Trip> sucessfullTrips = new();
             int.TryParse(ResultQuantity, out int resultQuantity);
 
             int local = 0;            

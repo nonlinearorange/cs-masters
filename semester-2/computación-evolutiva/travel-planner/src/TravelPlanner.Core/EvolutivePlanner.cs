@@ -12,7 +12,7 @@
 
         public CityMap CityMap { get; set; }
 
-        private List<Path> Population { get; set; }        
+        private List<Path> Population { get; }        
 
         public EvolutivePlanner(CityMap map)
         {
@@ -40,7 +40,7 @@
                 Path mutatedC = Mutate(childC);
                 Path mutatedD = Mutate(childD);
 
-                List<Path> mutated = new List<Path> { mutatedA, mutatedB, mutatedC, mutatedD};
+                List<Path> mutated = new() { mutatedA, mutatedB, mutatedC, mutatedD};
 
                 PerformReinsertion(mutated);
             }
@@ -51,7 +51,7 @@
 
         private Trip FilterBest()
         {
-            List<Path> viable = new List<Path>();
+            List<Path> viable = new();
             foreach (Path path in Population)
             {
                 bool isViable = VerifyIsViable(path);
@@ -78,7 +78,7 @@
         }
         private void PerformReinsertion(IEnumerable<Path> paths)
         {
-            List<Path> viable = new List<Path>();
+            List<Path> viable = new();
             foreach (Path path in paths)
             {
                 bool isViable = VerifyIsViable(path);
@@ -111,7 +111,7 @@
         }
         private bool PathMatchesTrip(Path path)
         {
-            return Origin == path.GetOrigin() && Destination == path.GetDesination();            
+            return Origin == path.GetOrigin() && Destination == path.GetDestination();            
         }
 
         private void CreateInitialPopulation()

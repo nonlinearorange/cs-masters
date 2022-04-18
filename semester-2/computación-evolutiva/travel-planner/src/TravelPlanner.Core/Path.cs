@@ -2,7 +2,7 @@
 {
     public class Path
     {
-        private List<string> Content { get; set; }
+        private List<string> Content { get; }
 
         public Path()
         {
@@ -38,7 +38,7 @@
             return Content[0];
         }
 
-        public string GetDesination()
+        public string GetDestination()
         {
             return Content[^1];
         }

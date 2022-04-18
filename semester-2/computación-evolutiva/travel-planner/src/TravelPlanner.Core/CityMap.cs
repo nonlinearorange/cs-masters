@@ -2,9 +2,9 @@
 {
     public class CityMap
     {        
-        private Dictionary<string, double> Costs { get; set; }
+        private Dictionary<string, double> Costs { get; }
 
-        private Dictionary<string, (string, string)> Connections { get; set; }
+        private Dictionary<string, (string, string)> Connections { get; }
 
         public CityMap()
         {
@@ -26,7 +26,7 @@
 
             if (mainExists || inverseExists) return;
 
-            Connections.Add(main, new (origin, destination));
+            Connections.Add(main, new ValueTuple<string, string>(origin, destination));
             RegisterCost(main, cost);
         }
 
@@ -127,7 +127,7 @@
         {
             int variantLength = Utilities.GetRandomInteger(0, length - 1);
             string[] cities = GetCities().ToArray();
-            Path path = new Path();
+            Path path = new();
             for (int i = 0; i < length - variantLength; i++)
             {
                 int randomIndex = Utilities.GetRandomInteger(0, length);

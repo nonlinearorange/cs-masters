@@ -1,5 +1,4 @@
 ﻿using TravelPlanner.Core;
-using Path = TravelPlanner.Core.Path;
 
 //void BasicDemo()
 //{
@@ -61,7 +60,7 @@ void MediumDemo()
 {
     for (int i = 0; i < 20; i++)
     {
-        CityMap map = new CityMap();
+        CityMap map = new();
         map.CreateConnection("Morelia", "CDMX", 13.0);
         map.CreateConnection("CDMX", "Puebla", 10.0);
         map.CreateConnection("Morelia", "Puebla", 20.0);
@@ -85,7 +84,7 @@ void ComplexDemo()
 {
     for (int i = 0; i < 20; i++)
     {
-        CityMap map = new CityMap();
+        CityMap map = new();
         map.CreateConnection("Tijuana", "Guadalajara", 110.0);
         map.CreateConnection("Tijuana", "Monterrey", 100.0);
         map.CreateConnection("Guadalajara", "León", 25.0);
